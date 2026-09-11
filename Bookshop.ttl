@@ -1,0 +1,227 @@
+@prefix : <http://example.org/bookshop#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/sulo/schema/resource/ontology-schema/e2973675-d52e-4cbc-b30c-ada508eb2456>
+    dct:title "Bookshop" .
+
+# ── Classes ──────────────────────────────────────────────────────────────
+
+<https://schema.org/address>
+    a rdfs:Class ;
+    rdfs:label "Address" ;
+    rdfs:comment "A postal address used for delivering products." .
+
+<https://schema.org/author>
+    a rdfs:Class ;
+    rdfs:label "Author" ;
+    rdfs:comment "An author who wrote a book." ;
+    rdfs:subClassOf <https://schema.org/Person> .
+
+:Basket
+    a rdfs:Class ;
+    rdfs:label "Basket" ;
+    rdfs:comment "Shopping cart which contains products during shopping." .
+
+<https://schema.org/Book>
+    a rdfs:Class ;
+    rdfs:label "Book" ;
+    rdfs:comment "Book possible to purchase in the shop." ;
+    rdfs:subClassOf <https://schema.org/Product> .
+
+:ChildrensBook
+    a rdfs:Class ;
+    rdfs:label "Children’sBook" ;
+    rdfs:comment "A book in genre recommended for children." ;
+    rdfs:subClassOf :Genre .
+
+<https://schema.org/customer>
+    a rdfs:Class ;
+    rdfs:label "Customer" ;
+    rdfs:comment "A person who purchases products from the shop." ;
+    rdfs:subClassOf <https://schema.org/Person> .
+
+:Discount
+    a rdfs:Class ;
+    rdfs:label "Discount" ;
+    rdfs:comment "A reduction of price of the product." .
+
+:Fantasy
+    a rdfs:Class ;
+    rdfs:label "Fantasy" ;
+    rdfs:comment "Type of general fiction which includes supernatural elements.\n" ;
+    rdfs:subClassOf :GeneralFiction .
+
+:Games
+    a rdfs:Class ;
+    rdfs:label "Games" ;
+    rdfs:comment "Game possible to purchase in the shop." ;
+    rdfs:subClassOf <https://schema.org/Product> .
+
+:GeneralFiction
+    a rdfs:Class ;
+    rdfs:label "GeneralFiction" ;
+    rdfs:comment "A category of genres which includes fiction stories. " ;
+    rdfs:subClassOf :Genre .
+
+:Genre
+    a rdfs:Class ;
+    rdfs:label "Genre" ;
+    rdfs:comment "Classifies books to the type based on what topic are they about." .
+
+:Horror
+    a rdfs:Class ;
+    rdfs:label "Horror" ;
+    rdfs:comment "Type of general fiction which includes scary stories." ;
+    rdfs:subClassOf :GeneralFiction .
+
+:Mathematics
+    a rdfs:Class ;
+    rdfs:label "Mathematics" ;
+    rdfs:comment "Type of non-fiction which is about the topic of mathematics." ;
+    rdfs:subClassOf :Non-fiction .
+
+:Non-fiction
+    a rdfs:Class ;
+    rdfs:label "Non-fiction" ;
+    rdfs:comment "A category of genres which includes real facts and true events." ;
+    rdfs:subClassOf :Genre .
+
+<https://schema.org/Order>
+    a rdfs:Class ;
+    rdfs:label "Order" ;
+    rdfs:comment "A customer order which contains products." .
+
+<https://schema.org/Person>
+    a rdfs:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "A person which might be a customer of the shop or an author of a book." .
+
+:Philosophy
+    a rdfs:Class ;
+    rdfs:label "Philosophy" ;
+    rdfs:comment "Type of non-fiction which is about the topic of philosophy." ;
+    rdfs:subClassOf :Non-fiction .
+
+<https://schema.org/Product>
+    a rdfs:Class ;
+    rdfs:label "Product" ;
+    rdfs:comment "A product possible to purchase in the book shop." .
+
+<https://schema.org/publisher>
+    a rdfs:Class ;
+    rdfs:label "Publisher" ;
+    rdfs:comment "A publisher who takes care of releasing a product. " .
+
+:Romance
+    a rdfs:Class ;
+    rdfs:label "Romance" ;
+    rdfs:comment "Type of general fiction which includes romantic stories." ;
+    rdfs:subClassOf :GeneralFiction .
+
+:Travel
+    a rdfs:Class ;
+    rdfs:label "Travel" ;
+    rdfs:comment "Type of non-fiction which is about the topic of traveling." ;
+    rdfs:subClassOf :Non-fiction .
+
+# ── Properties ───────────────────────────────────────────────────────────
+
+:basketContains
+    a rdfs:Property ;
+    rdfs:label "basketContains" ;
+    rdfs:comment "Relates the basket to the products which customer wants to purchase." ;
+    rdfs:domain :Basket ;
+    rdfs:range <https://schema.org/Product> .
+
+:belongsToGenre
+    a rdfs:Property ;
+    rdfs:label "belongsToGenre" ;
+    rdfs:comment "Relates a book to its genre." ;
+    rdfs:domain :Book ;
+    rdfs:range :Genre .
+
+:bookISBN
+    a rdfs:Property ;
+    rdfs:label "bookISBN" ;
+    rdfs:comment "The ISBN number of the book (officially defined as a string)." ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:string .
+
+:bookTitle
+    a rdfs:Property ;
+    rdfs:label "bookTitle" ;
+    rdfs:comment "The textual title of the book." ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:string .
+
+:description
+    a rdfs:Property ;
+    rdfs:label "description" ;
+    rdfs:comment "Textual description on what the book is about." ;
+    rdfs:domain :Product ;
+    rdfs:range xsd:string .
+
+:hasAddress
+    a rdfs:Property ;
+    rdfs:label "hasAddress" ;
+    rdfs:comment "Relates the customer to the address for delivery." ;
+    rdfs:domain :Customer ;
+    rdfs:range <https://schema.org/address> .
+
+:hasDiscount
+    a rdfs:Property ;
+    rdfs:label "hasDiscount" ;
+    rdfs:comment "Relates the product to the discount that is applicable to it." ;
+    rdfs:domain :Product ;
+    rdfs:range :Discount .
+
+:isAuthorOf
+    a rdfs:Property ;
+    rdfs:label "isAuthorOf" ;
+    rdfs:comment "Relates the author to the book that they have written." ;
+    rdfs:domain :Author ;
+    rdfs:range <https://schema.org/Book> .
+
+:numberOfPages
+    a rdfs:Property ;
+    rdfs:label "numberOfPages" ;
+    rdfs:comment "Integer number of pages that the book has." ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:integer .
+
+:orderContains
+    a rdfs:Property ;
+    rdfs:label "orderContains" ;
+    rdfs:comment "Relates the basket to the products which customer purchased." ;
+    rdfs:domain :Order ;
+    rdfs:range <https://schema.org/Product> .
+
+:placesOrder
+    a rdfs:Property ;
+    rdfs:label "placesOrder" ;
+    rdfs:comment "Relates the customer to the order that they have placed." ;
+    rdfs:domain :Customer ;
+    rdfs:range <https://schema.org/Order> .
+
+:price
+    a rdfs:Property ;
+    rdfs:label "price" ;
+    rdfs:comment "The monetary price of the book." ;
+    rdfs:domain :Product ;
+    rdfs:range xsd:decimal .
+
+:publishedBy
+    a rdfs:Property ;
+    rdfs:label "publishedBy" ;
+    rdfs:comment "Relates the product to the publisher which published it." ;
+    rdfs:domain :Product ;
+    rdfs:range <https://schema.org/publisher> .
+
+:publishedOn
+    a rdfs:Property ;
+    rdfs:label "publishedOn" ;
+    rdfs:comment "The date on which the product was published." ;
+    rdfs:domain :Product ;
+    rdfs:range xsd:date .
