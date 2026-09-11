@@ -109,7 +109,7 @@
     rdfs:label "Product" ;
     rdfs:comment "A product possible to purchase in the book shop." .
 
-<https://schema.org/publisher>
+:Publisher
     a rdfs:Class ;
     rdfs:label "Publisher" ;
     rdfs:comment "A publisher who takes care of releasing a product. " .
@@ -217,7 +217,7 @@
     rdfs:label "publishedBy" ;
     rdfs:comment "Relates the product to the publisher which published it." ;
     rdfs:domain :Product ;
-    rdfs:range <https://schema.org/publisher> .
+    rdfs:range :Publisher .
 
 :publishedOn
     a rdfs:Property ;
