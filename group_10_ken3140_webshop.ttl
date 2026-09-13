@@ -1,0 +1,743 @@
+@prefix : <http://example.org/bookshop#> .
+@prefix bookshop: <http://example.org/bookshop#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Basket a rdfs:Class ;
+    rdfs:label "Basket" ;
+    rdfs:comment "Shopping cart which contains products during shopping." .
+
+:ChildrensBook a rdfs:Class ;
+    rdfs:label "Children’sBook" ;
+    rdfs:comment "A book in genre recommended for children." ;
+    rdfs:subClassOf :Genre .
+
+:Discount a rdfs:Class ;
+    rdfs:label "Discount" ;
+    rdfs:comment "A reduction of price of the product." .
+
+:Fantasy a rdfs:Class ;
+    rdfs:label "Fantasy" ;
+    rdfs:comment """Type of general fiction which includes supernatural elements.
+""" ;
+    rdfs:subClassOf :GeneralFiction .
+
+:Games a rdfs:Class ;
+    rdfs:label "Games" ;
+    rdfs:comment "Game possible to purchase in the shop." ;
+    rdfs:subClassOf schema:Product .
+
+:GeneralFiction a rdfs:Class ;
+    rdfs:label "GeneralFiction" ;
+    rdfs:comment "A category of genres which includes fiction stories. " ;
+    rdfs:subClassOf :Genre .
+
+:Genre a rdfs:Class ;
+    rdfs:label "Genre" ;
+    rdfs:comment "Classifies books to the type based on what topic are they about." .
+
+:Horror a rdfs:Class ;
+    rdfs:label "Horror" ;
+    rdfs:comment "Type of general fiction which includes scary stories." ;
+    rdfs:subClassOf :GeneralFiction .
+
+:Mathematics a rdfs:Class ;
+    rdfs:label "Mathematics" ;
+    rdfs:comment "Type of non-fiction which is about the topic of mathematics." ;
+    rdfs:subClassOf :Non-fiction .
+
+:Non-fiction a rdfs:Class ;
+    rdfs:label "Non-fiction" ;
+    rdfs:comment "A category of genres which includes real facts and true events." ;
+    rdfs:subClassOf :Genre .
+
+:Philosophy a rdfs:Class ;
+    rdfs:label "Philosophy" ;
+    rdfs:comment "Type of non-fiction which is about the topic of philosophy." ;
+    rdfs:subClassOf :Non-fiction .
+
+:Publisher a rdfs:Class ;
+    rdfs:label "Publisher" ;
+    rdfs:comment "A publisher who takes care of releasing a product. " .
+
+:Romance a rdfs:Class ;
+    rdfs:label "Romance" ;
+    rdfs:comment "Type of general fiction which includes romantic stories." ;
+    rdfs:subClassOf :GeneralFiction .
+
+:Travel a rdfs:Class ;
+    rdfs:label "Travel" ;
+    rdfs:comment "Type of non-fiction which is about the topic of traveling." ;
+    rdfs:subClassOf :Non-fiction .
+
+schema:Book a rdfs:Class ;
+    rdfs:label "Book" ;
+    rdfs:comment "Book possible to purchase in the shop." ;
+    rdfs:subClassOf schema:Product .
+
+schema:Order a rdfs:Class ;
+    rdfs:label "Order" ;
+    rdfs:comment "A customer order which contains products." .
+
+schema:Person a rdfs:Class ;
+    rdfs:label "Person" ;
+    rdfs:comment "A person which might be a customer of the shop or an author of a book." .
+
+schema:Product a rdfs:Class ;
+    rdfs:label "Product" ;
+    rdfs:comment "A product possible to purchase in the book shop." .
+
+schema:address a rdfs:Class ;
+    rdfs:label "Address" ;
+    rdfs:comment "A postal address used for delivering products." .
+
+schema:author a rdfs:Class ;
+    rdfs:label "Author" ;
+    rdfs:comment "An author who wrote a book." ;
+    rdfs:subClassOf schema:Person .
+
+schema:customer a rdfs:Class ;
+    rdfs:label "Customer" ;
+    rdfs:comment "A person who purchases products from the shop." ;
+    rdfs:subClassOf schema:Person .
+
+:basketContains a rdfs:Property ;
+    rdfs:label "basketContains" ;
+    rdfs:comment "Relates the basket to the products which customer wants to purchase." ;
+    rdfs:domain :Basket ;
+    rdfs:range schema:Product .
+
+:belongsToGenre a rdfs:Property ;
+    rdfs:label "belongsToGenre" ;
+    rdfs:comment "Relates a book to its genre." ;
+    rdfs:domain :Book ;
+    rdfs:range :Genre .
+
+:bookISBN a rdfs:Property ;
+    rdfs:label "bookISBN" ;
+    rdfs:comment "The ISBN number of the book (officially defined as a string)." ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:string .
+
+:bookTitle a rdfs:Property ;
+    rdfs:label "bookTitle" ;
+    rdfs:comment "The textual title of the book." ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:string .
+
+:description a rdfs:Property ;
+    rdfs:label "description" ;
+    rdfs:comment "Textual description on what the book is about." ;
+    rdfs:domain :Product ;
+    rdfs:range xsd:string .
+
+:hasAddress a rdfs:Property ;
+    rdfs:label "hasAddress" ;
+    rdfs:comment "Relates the customer to the address for delivery." ;
+    rdfs:domain :Customer ;
+    rdfs:range schema:address .
+
+:hasDiscount a rdfs:Property ;
+    rdfs:label "hasDiscount" ;
+    rdfs:comment "Relates the product to the discount that is applicable to it." ;
+    rdfs:domain :Product ;
+    rdfs:range :Discount .
+
+:isAuthorOf a rdfs:Property ;
+    rdfs:label "isAuthorOf" ;
+    rdfs:comment "Relates the author to the book that they have written." ;
+    rdfs:domain :Author ;
+    rdfs:range schema:Book .
+
+:numberOfPages a rdfs:Property ;
+    rdfs:label "numberOfPages" ;
+    rdfs:comment "Integer number of pages that the book has." ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:integer .
+
+:orderContains a rdfs:Property ;
+    rdfs:label "orderContains" ;
+    rdfs:comment "Relates the basket to the products which customer purchased." ;
+    rdfs:domain :Order ;
+    rdfs:range schema:Product .
+
+:placesOrder a rdfs:Property ;
+    rdfs:label "placesOrder" ;
+    rdfs:comment "Relates the customer to the order that they have placed." ;
+    rdfs:domain :Customer ;
+    rdfs:range schema:Order .
+
+:price a rdfs:Property ;
+    rdfs:label "price" ;
+    rdfs:comment "The monetary price of the book." ;
+    rdfs:domain :Product ;
+    rdfs:range xsd:decimal .
+
+:publishedBy a rdfs:Property ;
+    rdfs:label "publishedBy" ;
+    rdfs:comment "Relates the product to the publisher which published it." ;
+    rdfs:domain :Product ;
+    rdfs:range :Publisher .
+
+:publishedOn a rdfs:Property ;
+    rdfs:label "publishedOn" ;
+    rdfs:comment "The date on which the product was published." ;
+    rdfs:domain :Product ;
+    rdfs:range xsd:date .
+
+<http://example.org/webshop/a-walk-in-the-woods-9781784161446> a :Travel,
+        schema:Book ;
+    :publishedBy bookshop:Transworld ;
+    schema:author "Bill Bryson" ;
+    schema:datePublished "2015-08-13"^^xsd:date ;
+    schema:name "A Walk in the Woods" ;
+    schema:numberOfPages 337 ;
+    schema:price 19.78 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9781784161446> .
+
+<http://example.org/webshop/algebra-9780198732822> a :Mathematics,
+        schema:Book ;
+    :publishedBy bookshop:OUPOXFORD ;
+    schema:author "Peter M. Higgins" ;
+    schema:datePublished "2015-10-22"^^xsd:date ;
+    schema:name "Algebra" ;
+    schema:numberOfPages 160 ;
+    schema:price 16.59 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9780198732822> .
+
+<http://example.org/webshop/analytic-philosophy-9780198778028> a :Philosophy,
+        schema:Book ;
+    :publishedBy bookshop:OUPOXFORD ;
+    schema:author "Michael Beaney" ;
+    schema:datePublished "2017-11-23"^^xsd:date ;
+    schema:name "Analytic Philosophy" ;
+    schema:numberOfPages 160 ;
+    schema:price 16.59 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9780198778028> .
+
+<http://example.org/webshop/applied-mathematics-9780198754046> a :Mathematics,
+        schema:Book ;
+    :publishedBy bookshop:OUPOXFORD ;
+    schema:author "Alain Goriely" ;
+    schema:datePublished "2018-02-22"^^xsd:date ;
+    schema:name "Applied Mathematics" ;
+    schema:numberOfPages 176 ;
+    schema:price 16.59 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9780198754046> .
+
+<http://example.org/webshop/aristotle-9780192854087> a :Philosophy,
+        schema:Book ;
+    :publishedBy bookshop:OUPOXFORD ;
+    schema:author "Jonathan Barnes" ;
+    schema:datePublished "2000-10-12"^^xsd:date ;
+    schema:name "Aristotle" ;
+    schema:numberOfPages 160 ;
+    schema:price 16.59 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9780192854087> .
+
+<http://example.org/webshop/burn-of-the-everflame-9781035432523> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:HeadlinePublishingGroup ;
+    schema:author "Penn Cole" ;
+    schema:datePublished "2026-09-08"^^xsd:date ;
+    schema:name "Burn of the Everflame" ;
+    schema:numberOfPages 848 ;
+    schema:price 20.73 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Burn-of-the-Everflame-by-Penn-Cole/9781035432523> .
+
+<http://example.org/webshop/butcher-blackbird-9780349441566> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:LittleBrown ;
+    schema:author "Brynne Weaver" ;
+    schema:datePublished "2023-12-21"^^xsd:date ;
+    schema:name "Butcher & Blackbird" ;
+    schema:numberOfPages 368 ;
+    schema:price 19.08 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Butcher-and-Blackbird-by-Brynne-Weaver/9780349441566> .
+
+<http://example.org/webshop/cambridge-o-level-mathematics-coursebook-9781009316453> a :Mathematics,
+        schema:Book ;
+    :publishedBy bookshop:CambridgeUniversityPress ;
+    schema:author "Dean Chalmers,, Ahmed Saya" ;
+    schema:datePublished "2023-06-08"^^xsd:date ;
+    schema:name "Cambridge O Level Mathematics Coursebook" ;
+    schema:numberOfPages 656 ;
+    schema:price 60.05 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Cambridge-O-Level-Mathematics-Coursebook-by-Dean-Chalmers-Ahmed-Saya/9781009316453> .
+
+<http://example.org/webshop/carmilla-9781782275848> a :Horror,
+        schema:Book ;
+    :publishedBy bookshop:PushkinPress ;
+    schema:author "Joseph Sheridan Le Fanu" ;
+    schema:datePublished "2020-10-15"^^xsd:date ;
+    schema:name "Carmilla" ;
+    schema:numberOfPages 160 ;
+    schema:price 17.14 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Carmilla-by-Joseph-Sheridan-Le-Fanu/9781782275848> .
+
+<http://example.org/webshop/chain-of-thorns-9781406358117> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:WalkerBooks ;
+    schema:author "Cassandra Clare" ;
+    schema:datePublished "2023-01-31"^^xsd:date ;
+    schema:name "Chain of Thorns" ;
+    schema:numberOfPages 676 ;
+    schema:price 23.49 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Chain-of-Thorns-by-Cassandra-Clare/9781406358117> .
+
+<http://example.org/webshop/fawn-9780857508805> a :Horror,
+        schema:Book ;
+    :publishedBy bookshop:Transworld ;
+    schema:author "C. N. Vair" ;
+    schema:datePublished "2026-08-27"^^xsd:date ;
+    schema:name "Fawn" ;
+    schema:numberOfPages 368 ;
+    schema:price 27.39 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Fawn-by-C-N-Vair/9780857508805> .
+
+<http://example.org/webshop/fourth-wing-9780349437019> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:LittleBrown ;
+    schema:author "Rebecca Yarros" ;
+    schema:datePublished "2024-03-26"^^xsd:date ;
+    schema:name "Fourth Wing" ;
+    schema:numberOfPages 561 ;
+    schema:price 19.31 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Fourth-Wing-by-Rebecca-Yarros/9780349437019> .
+
+<http://example.org/webshop/frankenstein-9780198314981> a :Horror,
+        schema:Book ;
+    :publishedBy bookshop:OUPOXFORD ;
+    schema:author "Philip Pullman,, Mary Wollstonecraft Shelley" ;
+    schema:datePublished "2003-08-06"^^xsd:date ;
+    schema:name "Frankenstein" ;
+    schema:numberOfPages 80 ;
+    schema:price 24.76 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Frankenstein-by-Philip-Pullman-Mary-Wollstonecraft-Shelley/9780198314981> .
+
+<http://example.org/webshop/goodnight-mister-tom-9780141354804> a :ChildrensBook,
+        schema:Book ;
+    :publishedBy bookshop:PenguinRandomHouseChildrensUK ;
+    schema:author "Michelle Magorian" ;
+    schema:datePublished "2014-07-03"^^xsd:date ;
+    schema:name "Goodnight Mister Tom" ;
+    schema:numberOfPages 357 ;
+    schema:price 17.7 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Goodnight-Mister-Tom-by-Michelle-Magorian/9780141354804> .
+
+<http://example.org/webshop/harry-potter-box-set-the-complete-collection-children-s-hardback-9781408856789> a :ChildrensBook,
+        schema:Book ;
+    :publishedBy bookshop:BloomsburyPublishingUK ;
+    schema:author "J.K. Rowling" ;
+    schema:datePublished "2014-10-09"^^xsd:date ;
+    schema:name "Harry Potter Box Set: The Complete Collection (Children's Hardback)" ;
+    schema:numberOfPages 3872 ;
+    schema:price 140.37 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Harry-Potter-Box-Set-The-Complete-Collection-Childrens-Hardback-by-J-K-Rowling/9781408856789> .
+
+<http://example.org/webshop/in-patagonia-9780099769514> a :Travel,
+        schema:Book ;
+    :publishedBy bookshop:RandomHouse ;
+    schema:author "Bruce Chatwin" ;
+    schema:datePublished "1998-12-03"^^xsd:date ;
+    schema:name "In Patagonia" ;
+    schema:numberOfPages 260 ;
+    schema:price 17.18 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9780099769514> .
+
+<http://example.org/webshop/introducing-mathematics-9781848312975> a :Mathematics,
+        schema:Book ;
+    :publishedBy bookshop:IconBooks ;
+    schema:author "Ziauddin Sardar,, Jerome R. Ravetz,, Borin Van Loon" ;
+    schema:datePublished "2011-09-01"^^xsd:date ;
+    schema:name "Introducing Mathematics" ;
+    schema:numberOfPages 176 ;
+    schema:price 16.02 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Introducing-Mathematics-by-Ziauddin-Sardar-author-Jerry-Ravetz-author-Borin-Van-Loon-illustrator/9781848312975> .
+
+<http://example.org/webshop/iron-flame-9780349437057> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:LittleBrown ;
+    schema:author "Rebecca Yarros" ;
+    schema:datePublished "2024-11-19"^^xsd:date ;
+    schema:name "Iron Flame" ;
+    schema:numberOfPages 786 ;
+    schema:price 19.35 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Iron-Flame-by-Rebecca-Yarros/9780349437057> .
+
+<http://example.org/webshop/it-9781399761550> a :Horror,
+        schema:Book ;
+    :publishedBy bookshop:HodderStoughton ;
+    schema:author "Stephen King" ;
+    schema:datePublished "2026-09-03"^^xsd:date ;
+    schema:name "IT" ;
+    schema:numberOfPages 1088 ;
+    schema:price 35.13 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/IT-by-Stephen-King/9781399761550> .
+
+<http://example.org/webshop/lolly-woe-9780198448549> a :ChildrensBook,
+        schema:Book ;
+    :publishedBy bookshop:OUPOXFORD ;
+    schema:author "Anna Perera" ;
+    schema:datePublished "2014-01-09"^^xsd:date ;
+    schema:name "Lolly Woe" ;
+    schema:numberOfPages 93 ;
+    schema:price 16.64 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Lolly-Woe-by-Anna-Perera-author-Martina-Selway-illustrator/9780198448549> .
+
+<http://example.org/webshop/mathematics-9780231116398> a :Mathematics,
+        schema:Book ;
+    :publishedBy bookshop:ColumbiaUniversityPress ;
+    schema:author "Keith J. Devlin" ;
+    schema:datePublished "2001-04-30"^^xsd:date ;
+    schema:name "Mathematics" ;
+    schema:numberOfPages 320 ;
+    schema:price 31.85 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Mathematics-by-Keith-J-Devlin/9780231116398> .
+
+<http://example.org/webshop/notes-from-a-small-island-9781784161194> a :Travel,
+        schema:Book ;
+    :publishedBy bookshop:Transworld ;
+    schema:author "Bill Bryson" ;
+    schema:datePublished "2015-07-30"^^xsd:date ;
+    schema:name "Notes from a Small Island" ;
+    schema:numberOfPages 378 ;
+    schema:price 19.08 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9781784161194> .
+
+<http://example.org/webshop/onyx-storm-9780349437064> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:LittleBrown ;
+    schema:author "Rebecca Yarros" ;
+    schema:datePublished "2025-01-21"^^xsd:date ;
+    schema:name "Onyx Storm" ;
+    schema:numberOfPages 527 ;
+    schema:price 28.67 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Onyx-Storm-by-Rebecca-Yarros/9780349437064> .
+
+<http://example.org/webshop/philosophical-issues-of-human-cyborgization-and-the-necessity-of-prolegomena-on-cyborg-ethics-9781799892311> a :Philosophy,
+        schema:Book ;
+    :publishedBy bookshop:IGIGlobal ;
+    schema:author "Greguric,, Ivana" ;
+    schema:datePublished "2021-10-30"^^xsd:date ;
+    schema:name "Philosophical Issues of Human Cyborgization and the Necessity of Prolegomena on Cyborg Ethics" ;
+    schema:numberOfPages 360 ;
+    schema:price 17.7 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Philosophical-Issues-of-Human-Cyborgization-and-the-Necessity-of-Prolegomena-on-Cyborg-Ethics-by-Ivana-Greguric/9781799892311> .
+
+<http://example.org/webshop/pink-ink-9781668218983> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:GalleryBooks ;
+    schema:author "Avina St. Graves" ;
+    schema:datePublished "2026-08-13"^^xsd:date ;
+    schema:name "Pink Ink" ;
+    schema:numberOfPages 400 ;
+    schema:price 22.33 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Pink-Ink-by-Avina-St-Graves/9781668218983> .
+
+<http://example.org/webshop/principles-of-biomedical-ethics-9780190640873> a :Philosophy,
+        schema:Book ;
+    :publishedBy bookshop:OUPUSA ;
+    schema:author "Tom L. Beauchamp,, James F. Childress" ;
+    schema:datePublished "2019-10-01"^^xsd:date ;
+    schema:name "Principles of Biomedical Ethics" ;
+    schema:numberOfPages 512 ;
+    schema:price 149.43 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Principles-of-Biomedical-Ethics-by-Tom-L-Beauchamp-James-F-Childress/9780190640873> .
+
+<http://example.org/webshop/re-zero-volume-1-9780316315302> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:LittleBrown ;
+    schema:author "Tappei Nagatsuki" ;
+    schema:datePublished "2016-07-19"^^xsd:date ;
+    schema:name "Re:ZERO Volume 1" ;
+    schema:numberOfPages 231 ;
+    schema:price 18.09 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/ReZERO-Volume-1-by-Tappei-Nagatsuki-author-Shinichiro-Otsuka-illustrator/9780316315302> .
+
+<http://example.org/webshop/riftborne-9780241818657> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:PenguinRandomHouseChildrensUK ;
+    schema:author "Bree Grenwich,, Parker Lennox" ;
+    schema:datePublished "2026-04-23"^^xsd:date ;
+    schema:name "Riftborne" ;
+    schema:numberOfPages 432 ;
+    schema:price 27.43 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Riftborne-by-Bree-Grenwich-Parker-Lennox/9780241818657> .
+
+<http://example.org/webshop/shatter-me-9780008660239> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:HarperCollinsPublishers ;
+    schema:author "Tahereh Mafi" ;
+    schema:datePublished "2023-11-23"^^xsd:date ;
+    schema:name "Shatter Me" ;
+    schema:numberOfPages 328 ;
+    schema:price 26.21 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Shatter-Me-by-Tahereh-Mafi/9780008660239> .
+
+<http://example.org/webshop/smoke-9798896230441> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:NewYorkReviewBooks ;
+    schema:author "Ivan Sergeevich Turgenev" ;
+    schema:datePublished "2026-07-14"^^xsd:date ;
+    schema:name "Smoke" ;
+    schema:numberOfPages 272 ;
+    schema:price 23.46 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Smoke-by-Ivan-Sergeevich-Turgenev-author-Donald-Rayfield-translator/9798896230441> .
+
+<http://example.org/webshop/solace-house-2100000300747> a :Horror,
+        schema:Book ;
+    :publishedBy bookshop:AtlanticBooks ;
+    schema:author "Will Maclean" ;
+    schema:datePublished "2026-05-07"^^xsd:date ;
+    schema:name "Solace House" ;
+    schema:numberOfPages 512 ;
+    schema:price 23.28 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Solace-House-by-Will-Maclean/2100000300747> .
+
+<http://example.org/webshop/teaching-about-technology-9781402052743> a :Philosophy,
+        schema:Book ;
+    :publishedBy bookshop:SpringerNetherlands ;
+    schema:author "de Vries,, Marc J." ;
+    schema:datePublished "2006-12-04"^^xsd:date ;
+    schema:name "Teaching about Technology" ;
+    schema:numberOfPages 172 ;
+    schema:price 23.82 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Teaching-About-Technology-by-Marc-J-de-Vries/9781402052743> .
+
+<http://example.org/webshop/the-baddies-9780702303517> a :ChildrensBook,
+        schema:Book ;
+    :publishedBy bookshop:Scholastic ;
+    schema:author "Julia Donaldson" ;
+    schema:datePublished "2022-09-01"^^xsd:date ;
+    schema:name "The Baddies" ;
+    schema:numberOfPages 32 ;
+    schema:price 20.89 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Baddies-by-Julia-Donaldson-author-Axel-Scheffler-artist/9780702303517> .
+
+<http://example.org/webshop/the-ballad-of-falling-dragons-9780008838126> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:HarperCollinsPublishers ;
+    schema:author "Sarah A. Parker" ;
+    schema:datePublished "2026-11-05"^^xsd:date ;
+    schema:name "The Ballad of Falling Dragons" ;
+    schema:numberOfPages 576 ;
+    schema:price 31.72 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Ballad-of-Falling-Dragons-by-Sarah-A-Parker/9780008838126> .
+
+<http://example.org/webshop/the-big-book-of-real-analysis-9783031308314> a :Mathematics,
+        schema:Book ;
+    :publishedBy bookshop:SpringerNatureSwitzerland ;
+    schema:author "Syafiq Johar" ;
+    schema:datePublished "2024-01-05"^^xsd:date ;
+    schema:name "The Big Book of Real Analysis" ;
+    schema:numberOfPages 910 ;
+    schema:price 90.04 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Big-Book-of-Real-Analysis-by-Syafiq-Johar/9783031308314> .
+
+<http://example.org/webshop/the-deal-9780349447155> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:LittleBrown ;
+    schema:author "Elle Kennedy" ;
+    schema:datePublished "2025-11-13"^^xsd:date ;
+    schema:name "The Deal" ;
+    schema:numberOfPages 389 ;
+    schema:price 27.14 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Deal-by-Elle-Kennedy/9780349447155> .
+
+<http://example.org/webshop/the-discovery-of-france-9781035039197> a :Travel,
+        schema:Book ;
+    :publishedBy bookshop:PanMacmillan ;
+    schema:author "Graham Robb" ;
+    schema:datePublished "2024-08-08"^^xsd:date ;
+    schema:name "The Discovery of France" ;
+    schema:numberOfPages 496 ;
+    schema:price 19.39 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Discovery-of-France-by-Graham-Robb/9781035039197> .
+
+<http://example.org/webshop/the-enemy-s-daughter-9780008774585> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:HarperCollinsPublishers ;
+    schema:author "Melissa Poett" ;
+    schema:datePublished "2025-05-08"^^xsd:date ;
+    schema:name "The Enemy's Daughter" ;
+    schema:numberOfPages 384 ;
+    schema:price 20.67 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Enemys-Daughter-by-Melissa-Poett/9780008774585> .
+
+<http://example.org/webshop/the-girls-9781529970982> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:RandomHouse ;
+    schema:author "John Bowen" ;
+    schema:datePublished "2026-06-04"^^xsd:date ;
+    schema:name "The Girls" ;
+    schema:numberOfPages 240 ;
+    schema:price 18.4 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Girls-by-John-Bowen/9781529970982> .
+
+<http://example.org/webshop/the-great-railway-bazaar-9780618658947> a :Travel,
+        schema:Book ;
+    :publishedBy bookshop:HMHBooks ;
+    schema:author "Paul Theroux" ;
+    schema:datePublished "2006-06-01"^^xsd:date ;
+    schema:name "The Great Railway Bazaar" ;
+    schema:numberOfPages 342 ;
+    schema:price 26.33 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9780618658947> .
+
+<http://example.org/webshop/the-miraculous-journey-of-edward-tulane-9781406360660> a :ChildrensBook,
+        schema:Book ;
+    :publishedBy bookshop:WalkerBooks ;
+    schema:author "Kate DiCamillo" ;
+    schema:datePublished "2015-03-05"^^xsd:date ;
+    schema:name "The Miraculous Journey of Edward Tulane" ;
+    schema:numberOfPages 204 ;
+    schema:price 17.13 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Miraculous-Journey-of-Edward-Tulane-by-Kate-DiCamillo-Bagram-Ibatoulline-illustrator/9781406360660> .
+
+<http://example.org/webshop/the-myth-of-sisyphus-9780141182001> a :Philosophy,
+        schema:Book ;
+    :publishedBy bookshop:PenguinBooksLtd ;
+    schema:author "Albert Camus" ;
+    schema:datePublished "2000-03-30"^^xsd:date ;
+    schema:name "The Myth of Sisyphus" ;
+    schema:numberOfPages 191 ;
+    schema:price 19.08 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Myth-of-Sisyphus-by-Albert-Camus/9780141182001> .
+
+<http://example.org/webshop/the-old-ways-9780141030586> a :Travel,
+        schema:Book ;
+    :publishedBy bookshop:PenguinBooksLtd ;
+    schema:author "Robert Macfarlane" ;
+    schema:datePublished "2013-05-30"^^xsd:date ;
+    schema:name "The Old Ways" ;
+    schema:numberOfPages 448 ;
+    schema:price 20.47 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9780141030586> .
+
+<http://example.org/webshop/the-poison-daughter-9781911760764> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:Transworld ;
+    schema:author "Sheila Masterson" ;
+    schema:datePublished "2026-08-18"^^xsd:date ;
+    schema:name "The Poison Daughter" ;
+    schema:numberOfPages 656 ;
+    schema:price 29.35 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Poison-Daughter-by-Sheila-Masterson/9781911760764> .
+
+<http://example.org/webshop/the-pop-up-dear-zoo-9781035004232> a :ChildrensBook,
+        schema:Book ;
+    :publishedBy bookshop:PanMacmillan ;
+    schema:author "Rod Campbell" ;
+    schema:datePublished "2023-10-19"^^xsd:date ;
+    schema:name "The Pop-Up Dear Zoo" ;
+    schema:numberOfPages 18 ;
+    schema:price 16.44 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/9781035004232> .
+
+<http://example.org/webshop/the-stick-man-finger-puppet-book-9780702335501> a :ChildrensBook,
+        schema:Book ;
+    :publishedBy bookshop:Scholastic ;
+    schema:author "Julia Donaldson" ;
+    schema:datePublished "2024-10-10"^^xsd:date ;
+    schema:name "The Stick Man Finger Puppet Book" ;
+    schema:numberOfPages 10 ;
+    schema:price 18.77 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/The-Stick-Man-Finger-Puppet-Book-by-Julia-Donaldson-author-Axel-Scheffler-artist/9780702335501> .
+
+<http://example.org/webshop/the-wall-a-horrifying-true-story-of-a-haunting-9781420880373> a :Horror,
+        schema:Book ;
+    :publishedBy bookshop:AuthorSolutionsInc ;
+    schema:author "Sarro,, Cindy" ;
+    schema:datePublished "2006-01-05"^^xsd:date ;
+    schema:name "THE WALL: A horrifying true story of a haunting" ;
+    schema:numberOfPages 136 ;
+    schema:price 24.03 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/THE-WALL-A-horrifying-true-story-of-a-haunting-by-Sarro-Cindy/9781420880373> .
+
+<http://example.org/webshop/twisted-lies-9780349448411> a :Romance,
+        schema:Book ;
+    :publishedBy bookshop:LittleBrown ;
+    schema:author "Ana Huang" ;
+    schema:datePublished "2026-07-30"^^xsd:date ;
+    schema:name "Twisted Lies" ;
+    schema:numberOfPages 554 ;
+    schema:price 28.31 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Twisted-Lies-by-Ana-Huang/9780349448411> .
+
+<http://example.org/webshop/we-have-always-lived-in-the-castle-9780141191454> a :Horror,
+        schema:Book ;
+    :publishedBy bookshop:PenguinBooksLtd ;
+    schema:author "Shirley Jackson" ;
+    schema:datePublished "2009-10-01"^^xsd:date ;
+    schema:name "We Have Always Lived in the Castle" ;
+    schema:numberOfPages 158 ;
+    schema:price 19.08 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/We-Have-Always-Lived-in-the-Castle-by-Shirley-Jackson/9780141191454> .
+
+<http://example.org/webshop/wolf-siren-9780008642013> a :Fantasy,
+        schema:Book ;
+    :publishedBy bookshop:HarperCollinsPublishers ;
+    schema:author "Beth O'Brien" ;
+    schema:datePublished "2025-03-27"^^xsd:date ;
+    schema:name "Wolf Siren" ;
+    schema:numberOfPages 304 ;
+    schema:price 17.7 ;
+    schema:url <https://blackwells.co.uk/bookshop/product/Wolf-Siren-by-Beth-OBrien/9780008642013> .
+
+<https://w3id.org/sulo/schema/resource/ontology-schema/e2973675-d52e-4cbc-b30c-ada508eb2456> dct:title "Bookshop" .
+
+bookshop:AtlanticBooks a :Publisher .
+
+bookshop:AuthorSolutionsInc a :Publisher .
+
+bookshop:BloomsburyPublishingUK a :Publisher .
+
+bookshop:CambridgeUniversityPress a :Publisher .
+
+bookshop:ColumbiaUniversityPress a :Publisher .
+
+bookshop:GalleryBooks a :Publisher .
+
+bookshop:HMHBooks a :Publisher .
+
+bookshop:HeadlinePublishingGroup a :Publisher .
+
+bookshop:HodderStoughton a :Publisher .
+
+bookshop:IGIGlobal a :Publisher .
+
+bookshop:IconBooks a :Publisher .
+
+bookshop:NewYorkReviewBooks a :Publisher .
+
+bookshop:OUPUSA a :Publisher .
+
+bookshop:PushkinPress a :Publisher .
+
+bookshop:SpringerNatureSwitzerland a :Publisher .
+
+bookshop:SpringerNetherlands a :Publisher .
+
+bookshop:PanMacmillan a :Publisher .
+
+bookshop:PenguinRandomHouseChildrensUK a :Publisher .
+
+bookshop:RandomHouse a :Publisher .
+
+bookshop:Scholastic a :Publisher .
+
+bookshop:WalkerBooks a :Publisher .
+
+bookshop:PenguinBooksLtd a :Publisher .
+
+bookshop:HarperCollinsPublishers a :Publisher .
+
+bookshop:Transworld a :Publisher .
+
+bookshop:OUPOXFORD a :Publisher .
+
+bookshop:LittleBrown a :Publisher .
+

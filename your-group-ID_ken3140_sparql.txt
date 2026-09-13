@@ -6,23 +6,30 @@ SPARQL results
 
 Query A: 
 
+For a given item (select a random item from your RDF Graph), provide all its
+categories and subcategories, and its brand.
 
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
+webshop = """
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bookshop: <http://example.org/bookshop#>
 
+SELECT ?name ?subcategory ?category ?publisher
+WHERE {
+    <http://example.org/webshop/the-girls-9781529970982>
+        schema:name ?name ;
+        rdf:type ?subcategory ;
+        bookshop:publishedBy ?publisher .
 
-Results:
+    ?subcategory rdfs:subClassOf ?category .
+}
+"""
 
+Result: 
+http://example.org/bookshop#GeneralFiction http://example.org/bookshop#Romance http://example.org/bookshop#RandomHouse
+https://schema.org/Product https://schema.org/Book http://example.org/bookshop#RandomHouse
 
-------
-------
-
-Query A: 
-
-
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
-
-
-Results:
+Note: Since books do not normally have a commercial brand in the same way as other products, the publisher is used as the brand-equivalent property in our graph.
 
 
 ------------
@@ -30,70 +37,314 @@ Results:
 Query B: 
 
 
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
+Provide items from different subcategories that have the same brand.
+
+query_b = """
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bookshop: <http://example.org/bookshop#>
+PREFIX schema: <https://schema.org/>
+
+SELECT DISTINCT ?name1 ?subcategory1 ?name2 ?subcategory2 ?publisher
+WHERE {
+    ?item1 schema:name ?name1 ;
+            bookshop:publishedBy ?publisher ;
+            rdf:type ?subcategory1 .
+
+    ?item2 schema:name ?name2 ;
+            bookshop:publishedBy ?publisher ;
+            rdf:type ?subcategory2 .
+
+        FILTER(?item1 != ?item2)
+        FILTER(?subcategory1 != ?subcategory2)
+
+        FILTER(?subcategory1 != schema:Book)
+        FILTER(?subcategory2 != schema:Book)
+}
+"""
 
 
-Results:
+Result:
 
-
-------------
+The Deal http://example.org/bookshop#Romance Fourth Wing http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+The Deal http://example.org/bookshop#Romance Iron Flame http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+The Deal http://example.org/bookshop#Romance Onyx Storm http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+The Deal http://example.org/bookshop#Romance Re:ZERO Volume 1 http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Twisted Lies http://example.org/bookshop#Romance Fourth Wing http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Twisted Lies http://example.org/bookshop#Romance Iron Flame http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Twisted Lies http://example.org/bookshop#Romance Onyx Storm http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Twisted Lies http://example.org/bookshop#Romance Re:ZERO Volume 1 http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Butcher & Blackbird http://example.org/bookshop#Romance Fourth Wing http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Butcher & Blackbird http://example.org/bookshop#Romance Iron Flame http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Butcher & Blackbird http://example.org/bookshop#Romance Onyx Storm http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Butcher & Blackbird http://example.org/bookshop#Romance Re:ZERO Volume 1 http://example.org/bookshop#Fantasy http://example.org/bookshop#LittleBrown
+Fourth Wing http://example.org/bookshop#Fantasy The Deal http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Fourth Wing http://example.org/bookshop#Fantasy Twisted Lies http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Fourth Wing http://example.org/bookshop#Fantasy Butcher & Blackbird http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Iron Flame http://example.org/bookshop#Fantasy The Deal http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Iron Flame http://example.org/bookshop#Fantasy Twisted Lies http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Iron Flame http://example.org/bookshop#Fantasy Butcher & Blackbird http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Onyx Storm http://example.org/bookshop#Fantasy The Deal http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Onyx Storm http://example.org/bookshop#Fantasy Twisted Lies http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Onyx Storm http://example.org/bookshop#Fantasy Butcher & Blackbird http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Re:ZERO Volume 1 http://example.org/bookshop#Fantasy The Deal http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Re:ZERO Volume 1 http://example.org/bookshop#Fantasy Twisted Lies http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+Re:ZERO Volume 1 http://example.org/bookshop#Fantasy Butcher & Blackbird http://example.org/bookshop#Romance http://example.org/bookshop#LittleBrown
+The Poison Daughter http://example.org/bookshop#Romance Fawn http://example.org/bookshop#Horror http://example.org/bookshop#Transworld
+...
+Chain of Thorns http://example.org/bookshop#Fantasy The Miraculous Journey of Edward Tulane http://example.org/bookshop#ChildrensBook http://example.org/bookshop#WalkerBooks
+The Miraculous Journey of Edward Tulane http://example.org/bookshop#ChildrensBook Chain of Thorns http://example.org/bookshop#Fantasy http://example.org/bookshop#WalkerBooks
+The Discovery of France http://example.org/bookshop#Travel The Pop-Up Dear Zoo http://example.org/bookshop#ChildrensBook http://example.org/bookshop#PanMacmillan
+The Pop-Up Dear Zoo http://example.org/bookshop#ChildrensBook The Discovery of France http://example.org/bookshop#Travel http://example.org/bookshop#PanMacmillan
 
 Query C: 
 
 
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
+Optimization: using DISTINCT removes identical rows if the graph contains duplicate matching statements.
+
+Group products by brand and show the average price or rating for each brand.
+
+query_c = """
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bookshop: <http://example.org/bookshop#>
+PREFIX schema: <https://schema.org/>
+
+SELECT ?publisher (AVG(?price) as ?averagePrice)
+WHERE {
+    ?item bookshop:publishedBy ?publisher ;
+            schema:price ?price .
+
+}
+GROUP BY ?publisher
+ORDER BY DESC(?averagePrice)
+"""
 
 
 Results:
+http://example.org/bookshop#OUPUSA
+ 149.4300000000000068212102633
+http://example.org/bookshop#BloomsburyPublishingUK 140.3700000000000045474735089
+http://example.org/bookshop#SpringerNatureSwitzerland 90.04000000000000625277607469
+http://example.org/bookshop#CambridgeUniversityPress 60.04999999999999715782905696
+http://example.org/bookshop#HodderStoughton 35.13000000000000255795384874
+http://example.org/bookshop#ColumbiaUniversityPress 31.85000000000000142108547152
+http://example.org/bookshop#HMHBooks 26.32999999999999829469743418
+http://example.org/bookshop#HarperCollinsPublishers 24.07499999999999928945726424
+http://example.org/bookshop#AuthorSolutionsInc 24.03000000000000113686837722
+http://example.org/bookshop#Transworld 23.89999999999999857891452848
+http://example.org/bookshop#SpringerNetherlands 23.82000000000000028421709430
+http://example.org/bookshop#NewYorkReviewBooks 23.46000000000000085265128291
+http://example.org/bookshop#AtlanticBooks 23.28000000000000113686837722
+http://example.org/bookshop#LittleBrown 22.85000000000000243614652261
+http://example.org/bookshop#PenguinRandomHouseChildrensUK 22.56499999999999772626324557
+http://example.org/bookshop#GalleryBooks 22.32999999999999829469743418
+http://example.org/bookshop#HeadlinePublishingGroup 20.73000000000000042632564146
+http://example.org/bookshop#WalkerBooks 20.30999999999999872102307563
+http://example.org/bookshop#Scholastic 19.82999999999999829469743418
+http://example.org/bookshop#PenguinBooksLtd 19.54333333333333181750883038
+http://example.org/bookshop#OUPOXFORD 17.96000000000000085265128291
+http://example.org/bookshop#PanMacmillan 17.91499999999999914734871709
+http://example.org/bookshop#RandomHouse 17.78999999999999914734871709
+http://example.org/bookshop#IGIGlobal 17.69999999999999928945726424
+http://example.org/bookshop#PushkinPress 17.14000000000000056843418861
+http://example.org/bookshop#IconBooks 16.01999999999999957367435854
 
-
-------------
+Optimization: for the sake of completeness we left all possible data to be outputted in the result.
+ However, for optimization, we could use LIMIT 1 that would stop the process after finding a successful match.
 
 Query D: 
 
 
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
+Sort products in one category according to average brand price or rating.
 
+query_d = """
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bookshop: <http://example.org/bookshop#>
+PREFIX schema: <https://schema.org/>
 
-Results:
+SELECT ?name ?publisher ?averagePublisherPrice
+WHERE {
+    ?item rdf:type bookshop:Romance ;
+            schema:name ?name ;
+            bookshop:publishedBy ?publisher ;
+    {
+        SELECT ?publisher (AVG(?price) as ?averagePublisherPrice)
+        WHERE {
+            ?product bookshop:publishedBy ?publisher ;
+                    schema:price ?price .
+        }
+        GROUP BY ?publisher
+    }
+}
+ORDER BY DESC(?averagePublisherPrice)
+"""
+
+Result:
+
+The Ballad of Falling Dragons http://example.org/bookshop#HarperCollinsPublishers 24.07499999999999928945726424
+The Poison Daughter http://example.org/bookshop#Transworld 23.89999999999999857891452848
+Smoke http://example.org/bookshop#NewYorkReviewBooks 23.46000000000000085265128291
+The Deal http://example.org/bookshop#LittleBrown 22.85000000000000243614652261
+Twisted Lies http://example.org/bookshop#LittleBrown 22.85000000000000243614652261
+Butcher & Blackbird http://example.org/bookshop#LittleBrown 22.85000000000000243614652261
+Riftborne http://example.org/bookshop#PenguinRandomHouseChildrensUK 22.56499999999999772626324557
+Pink Ink http://example.org/bookshop#GalleryBooks 22.32999999999999829469743418
+Burn of the Everflame http://example.org/bookshop#HeadlinePublishingGroup 20.73000000000000042632564146
+The Girls http://example.org/bookshop#RandomHouse 17.78999999999999914734871709
+
+Optimization: for the sake of completeness we left all possible data to be outputted in the result.
+ However, for optimization, we could use LIMIT 1 that would stop the process after finding a successful match.
 
 
 ------------
 
 Query E: 
+Using an external service point (e.g. https://query.wikidata.org/), provide a
+description of 5 facts about the top ranked brand from part D, e.g. location of
+headquarters. You may return images as one of your facts.
+
+query_e = f"""
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+    SELECT ?companyLabel ?headquartersLabel ?founderLabel ?countryLabel ?inceptionDate ?website
+    WHERE {{
+
+      {{ ?company rdfs:label "{brand_name}"@en . }}
+      UNION
+      {{ ?company skos:altLabel "{brand_name}"@en . }}
+      BIND("{brand_name}" AS ?companyLabel)
+      OPTIONAL {{ ?company wdt:P159 ?hq . ?hq rdfs:label ?headquartersLabel . FILTER(lang(?headquartersLabel) = "en") }}
+
+      OPTIONAL {{ ?company wdt:P112 ?f . ?f rdfs:label ?founderLabel . FILTER(lang(?founderLabel) = "en") }}
+
+      OPTIONAL {{ ?company wdt:P17 ?c . ?c rdfs:label ?countryLabel . FILTER(lang(?countryLabel) = "en") }}
+
+      OPTIONAL {{ ?company wdt:P571 ?inceptionDate . }}
+
+      OPTIONAL {{ ?company wdt:P856 ?website . }}
+    }}
+
+    LIMIT 1
 
 
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
+Result:
 
+companyLabel: HarperCollins
+headquartersLabel: 195 Broadway
+founderLabel: James Harper
+countryLabel: United States
+inceptionDate: 1817-01-01T00:00:00Z
+website: https://www.harpercollins.com/
 
-Results:
-
-
-------------
+Optimization: using LIMIT 1 returns the first result and stops the search after returning 1 successful match.
 
 Query F: 
 
+Recommend an item which is similar to the item using your linked RDF graph
+(i.e., shared properties and categories).
 
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
+query_f = """
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+PREFIX bookshop: <http://example.org/bookshop#>
+
+SELECT ?recommendedItem ?recommendedItemName ?publisher (IF(?publisher = ?targetPublisher, 1, 0) AS ?samePublisher)
+WHERE {
+    ?targetItem rdf:type ?subcategory ;
+                bookshop:publishedBy ?targetPublisher .
+    ?subcategory rdfs:subClassOf+ bookshop:Genre .
+
+    ?recommendedItem rdf:type ?subcategory ;
+                      schema:name ?recommendedItemName ;
+                      bookshop:publishedBy ?publisher .
+    FILTER (?recommendedItem != ?targetItem)
+}
+ORDER BY DESC(?samePublisher)
+LIMIT 5
+"""
 
 
 Results:
 
+http://example.org/webshop/twisted-lies-9780349448411 Twisted Lies http://example.org/bookshop#LittleBrown 1
+http://example.org/webshop/butcher-blackbird-9780349441566 Butcher & Blackbird http://example.org/bookshop#LittleBrown 1
+http://example.org/webshop/burn-of-the-everflame-9781035432523 Burn of the Everflame http://example.org/bookshop#HeadlinePublishingGroup 0
+http://example.org/webshop/the-poison-daughter-9781911760764 The Poison Daughter http://example.org/bookshop#Transworld 0
+http://example.org/webshop/the-girls-9781529970982 The Girls http://example.org/bookshop#RandomHouse 0
 
-------
-------------
+Optimization: using LIMIT 5 returns the first 5 query results and stops the search after returning 5 successful matches.
+
 
 Query G: 
 
--- INSERT TEST OF YOUR QUERY QUESTION -
+Write your own question about the webshop in plain English, then translate it to
+the corresponding SPARQL query, and run it on the graph. Provide a rationale for
+why this query would be valuable in a webshop setting, such as for semantic
+search or other applications.
 
 
--- INSERT SPARQL FORMULATION OF YOUR QUERY--
+Which items are priced above the average price of their own subcategory?
 
 
-Results:
+query = """
+
+PREFIX bookshop: <http://example.org/bookshop#>
+PREFIX schema: <https://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 
 
------------------------------------------------------------------------------------------------------------------------------
+SELECT ?itemName ?subcategory ?itemPrice ?subcategoryAveragePrice
 
+WHERE {
+
+    ?item rdf:type ?subcategory ;
+          schema:name ?itemName ;
+          schema:price ?itemPrice .
+    ?subcategory rdfs:subClassOf+ bookshop:Genre .
+
+    {
+        SELECT ?subcategory (AVG(?price) AS ?subcategoryAveragePrice)
+
+        WHERE {
+            ?otherItem rdf:type ?subcategory ;
+                       schema:price ?price .
+            ?subcategory rdfs:subClassOf+ bookshop:Genre .
+        }
+
+        GROUP BY ?subcategory
+    }
+
+    FILTER (?itemPrice > ?subcategoryAveragePrice)
+}
+
+ORDER BY ?subcategory DESC(?itemPrice)
+"""
+
+
+
+Result: 
+
+Harry Potter Box Set: The Complete Collection (Children's Hardback) - http://example.org/bookshop#ChildrensBook - price: 140.37 - category avg: 35.41999999999999967518046365
+Onyx Storm - http://example.org/bookshop#Fantasy - price: 28.67 - category avg: 21.68625000000000113686837722
+Shatter Me - http://example.org/bookshop#Fantasy - price: 26.21 - category avg: 21.68625000000000113686837722
+Chain of Thorns - http://example.org/bookshop#Fantasy - price: 23.49 - category avg: 21.68625000000000113686837722
+IT - http://example.org/bookshop#Horror - price: 35.13 - category avg: 24.40142857142857175339096492
+Fawn - http://example.org/bookshop#Horror - price: 27.39 - category avg: 24.40142857142857175339096492
+Frankenstein - http://example.org/bookshop#Horror - price: 24.76 - category avg: 24.40142857142857175339096492
+The Big Book of Real Analysis - http://example.org/bookshop#Mathematics - price: 90.04 - category avg: 38.52333333333333105959657890
+Cambridge O Level Mathematics Coursebook - http://example.org/bookshop#Mathematics - price: 60.05 - category avg: 38.52333333333333105959657890
+Principles of Biomedical Ethics - http://example.org/bookshop#Philosophy - price: 149.43 - category avg: 40.53499999999999658939486835
+The Ballad of Falling Dragons - http://example.org/bookshop#Romance - price: 31.72 - category avg: 24.79500000000000454747350886
+The Poison Daughter - http://example.org/bookshop#Romance - price: 29.35 - category avg: 24.79500000000000454747350886
+Twisted Lies - http://example.org/bookshop#Romance - price: 28.31 - category avg: 24.79500000000000454747350886
+Riftborne - http://example.org/bookshop#Romance - price: 27.43 - category avg: 24.79500000000000454747350886
+The Deal - http://example.org/bookshop#Romance - price: 27.14 - category avg: 24.79500000000000454747350886
+The Great Railway Bazaar - http://example.org/bookshop#Travel - price: 26.33 - category avg: 20.37166666666666732983988671
+The Old Ways - http://example.org/bookshop#Travel - price: 20.47 - category avg: 20.37166666666666732983988671
